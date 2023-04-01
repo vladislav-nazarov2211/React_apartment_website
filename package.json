@@ -39,5 +39,13 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@reduxjs/toolkit": "^1.9.1",
+    "axios": "^1.2.3",
+    "bootstrap": "^5.2.3",
+    "react-hook-form": "^7.42.1",
+    "react-redux": "^8.0.5",
+    "react-router-dom": "^6.7.0"
   }
 }
