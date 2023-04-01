@@ -10,12 +10,7 @@ import { Cards } from "./Cards"
 
 export const Filter = () => {
     const dispatch = useDispatch<AppDispatch>()
-    const initialFilter = useSelector((state: RootState) => state.filter.initialFilter)
-    const isFetching = useSelector((state: RootState) => state.filter.isFetching)
-    const cardsCount = useSelector((state: RootState) => state.filter.cardsCount)
-    const isFetchingQuery = useSelector((state: RootState) => state.filter.fetchingQuery)
-    const queryFilterArray = useSelector((state: RootState) => state.filter.queryFilterArray)
-    
+    const {initialFilter, isFetching, cardsCount, fetchingQuery, queryFilterArray} = useSelector((state: RootState) => state.filter)   
 
     useEffect(() => {
         if (initialFilter === null) {
@@ -23,6 +18,7 @@ export const Filter = () => {
         }
     }, [])
 
+    // Инициализация значений инпутов на основе пришедшего фильтра с сервера    
     let initialObj: inputsType = {
         priceMin: initialFilter?.priceMin || '',
         priceMax: initialFilter?.priceMax || '',
@@ -31,21 +27,23 @@ export const Filter = () => {
         complexNames: initialFilter?.complexNames || []
     }
 
+    const [inputs, setInputs] = useState<inputsType>(initialObj)
+
     useEffect(() => {
         setInputs(initialObj)
     }, [initialFilter])
 
-    const [inputs, setInputs] = useState<inputsType>(initialObj)
     const [roomValues, setCheckedValues] = useState<string[]>([])
-
+    
+    //событие на изменение инпутов, включая селект
     function changeHandler(e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>) {
         setInputs(prev => ({...prev, [e.target.name]: e.target.value}))
     }
-
+    // Отрисовка селекта с комплексами 
     let complexName = initialFilter?.complexNames.map((item, index) => {
         return <option key={index} value={item}>{item}</option>
     })
-
+    // Событие на чекбоксы выбора комнат
     function handleChange(e: any) {
         const {value, checked} = e.target
         if (checked) {
@@ -56,7 +54,7 @@ export const Filter = () => {
             })
         )
     }
-    
+    // Отрисовка комнат (1, 2, 3)
     let rooms = initialFilter?.roomValues.map((item, index) => {
         return (
             <div key={index}>
@@ -77,12 +75,12 @@ export const Filter = () => {
             dispatch(fetchQueryFilter(inputs, roomValues))
         }
     }, [inputs, roomValues])
-
+    //Сброс фильтра    
     function reset() {
         setInputs(initialObj)
         setCheckedValues([])
     }
-
+    //рендер карточек по клику "показать"
     const [arrayToRender, setArrayToRender] = useState<Array<apartament>>([])    
     function render(e: React.FormEvent<EventTarget>) {
         e.preventDefault()
@@ -178,8 +176,8 @@ export const Filter = () => {
                 }                
             </div>
             <div className="filter__buttons">
-                <button onClick={render} disabled={isFetchingQuery} className="filter__show">
-                    {isFetchingQuery ?
+                <button onClick={render} disabled={fetchingQuery} className="filter__show">
+                    {fetchingQuery ?
                         <div className="preloader__position1">
                             <Preloader />
                         </div>
