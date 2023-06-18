@@ -29,6 +29,8 @@ export interface filterType {
     squareMax: string
     complexNames: string[]
     roomValues: string[]
+    currentComplex: string,
+    currentRoom: []
 }
 
 export interface inputsType {

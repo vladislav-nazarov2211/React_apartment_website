@@ -11,7 +11,7 @@ import { Cards } from "./Cards"
 export const Filter = () => {
     const dispatch = useDispatch<AppDispatch>()
     const {initialFilter, isFetching, cardsCount, fetchingQuery, queryFilterArray} = useSelector((state: RootState) => state.filter)   
-
+    
     useEffect(() => {
         if (initialFilter === null) {
             dispatch(fetchFilter())

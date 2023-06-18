@@ -17,7 +17,7 @@ const filterSlice = createSlice({
             state.isFetching = action.payload
         },
         setFilter(state, action) {
-            state.initialFilter = action.payload
+            state.initialFilter = {...action.payload, currentComplex: '', currentRoom: [] }
         },
         setQueryFilter(state, action) {
             state.queryFilterArray =  action.payload
